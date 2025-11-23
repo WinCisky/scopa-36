@@ -79,13 +79,12 @@ func add_cards_to_team(player_index: int, cards: Array):
 
 func complete_last_turn():
 	# last team that took gets all the cards on table
-	if cards_on_table.is_empty():
-		return
-	if last_took_team_a:
-		picked_cards_team_a.append_array(cards_on_table)
-	else:
-		picked_cards_team_b.append_array(cards_on_table)
-	cards_on_table.clear()
+	if !cards_on_table.is_empty():
+		if last_took_team_a:
+			picked_cards_team_a.append_array(cards_on_table)
+		else:
+			picked_cards_team_b.append_array(cards_on_table)
+		cards_on_table.clear()
 	print_taken_cards()
 
 func print_taken_cards():
