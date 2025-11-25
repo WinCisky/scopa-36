@@ -17,6 +17,7 @@ var deck := Deck.new()
 var table := Table.new()
 
 @export var players_path: NodePath
+@export var card_manager: CardManager
 
 func setup_childs():
 	if players_path != NodePath():
@@ -89,9 +90,10 @@ func _on_player_splitted(index: int):
 	for i in range(4):
 		var player_index = (current_player_index + 1 + i) % 4
 		players[player_index].cards.append_array(dealed_cards[i])
-		print("Player ", i, players[player_index].cards)
+		# print("Player ", i, players[player_index].cards)
 	
-	# TODO: give the cards animation
+	# give the cards animation
+	await card_manager.give_cards(players[0].cards)
 	
 	# let the 1st player pick
 	next_player_pick()
