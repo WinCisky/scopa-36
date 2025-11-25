@@ -15,21 +15,7 @@ var cards: Array[int] = []
 #@export var is_human: bool = false
 
 func _ready():
-	$Label.text = display_name
-
-func print_current_state():
-	match current_state:
-		PlayerState.WAIT:
-			$Label.text = "Wait"
-		PlayerState.SHUFFLE:
-			$Label.text = "Shuffle"
-		PlayerState.SPLIT:
-			$Label.text = "Split"	
-		PlayerState.PICK:
-			$Label.text = "Pick"	
-
-func _on_timer_timeout() -> void:
-	print_current_state()
+	pass
 
 func _on_pick(player_index: int):
 	if (player_index != player_id):

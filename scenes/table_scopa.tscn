@@ -16,13 +16,6 @@ script = ExtResource("1_k0nlb")
 players_path = NodePath("../Players")
 card_manager = NodePath("../CardsManager")
 
-[node name="Label" type="Label" parent="GameManager"]
-offset_right = 40.0
-offset_bottom = 23.0
-
-[node name="Timer" type="Timer" parent="GameManager"]
-autostart = true
-
 [node name="Players" type="Node" parent="."]
 
 [node name="Player" parent="Players" instance=ExtResource("3_eoomw")]
@@ -129,5 +122,3 @@ display_name = "Player3"
 script = ExtResource("5_dra8c")
 camera = NodePath("../Camera2D")
 cards = [NodePath("../Cards/Card"), NodePath("../Cards/Card2"), NodePath("../Cards/Card3"), NodePath("../Cards/Card4"), NodePath("../Cards/Card5"), NodePath("../Cards/Card6"), NodePath("../Cards/Card7"), NodePath("../Cards/Card8"), NodePath("../Cards/Card9"), NodePath("../Cards/Card10"), NodePath("../Cards/Card11"), NodePath("../Cards/Card12"), NodePath("../Cards/Card13"), NodePath("../Cards/Card14"), NodePath("../Cards/Card15"), NodePath("../Cards/Card16"), NodePath("../Cards/Card17"), NodePath("../Cards/Card18"), NodePath("../Cards/Card19"), NodePath("../Cards/Card20"), NodePath("../Cards/Card21"), NodePath("../Cards/Card22"), NodePath("../Cards/Card23"), NodePath("../Cards/Card24"), NodePath("../Cards/Card25"), NodePath("../Cards/Card26"), NodePath("../Cards/Card27"), NodePath("../Cards/Card28"), NodePath("../Cards/Card29"), NodePath("../Cards/Card30"), NodePath("../Cards/Card31"), NodePath("../Cards/Card32"), NodePath("../Cards/Card33"), NodePath("../Cards/Card34"), NodePath("../Cards/Card35"), NodePath("../Cards/Card36"), NodePath("../Cards/Card37"), NodePath("../Cards/Card38"), NodePath("../Cards/Card39"), NodePath("../Cards/Card40")]
-
-[connection signal="timeout" from="GameManager/Timer" to="GameManager" method="_on_timer_timeout"]

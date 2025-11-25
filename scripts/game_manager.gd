@@ -66,6 +66,7 @@ func _on_player_picked(card: int):
 		var default_preference: Array = []
 		if preferences.size() > 0:
 			default_preference = preferences[0]
+		await card_manager.play_card(current_player_index, card)
 		table.play_card(current_player_index, card, default_preference)
 		next_turn()
 	else:
@@ -74,6 +75,7 @@ func _on_player_picked(card: int):
 		
 func _on_player_preference(card: int, preference: Array):
 	print("player has picked a preference")
+	await card_manager.play_card(current_player_index, card)
 	table.play_card(current_player_index, card, preference)
 	next_turn()
 	
@@ -97,22 +99,3 @@ func _on_player_splitted(index: int):
 	
 	# let the 1st player pick
 	next_player_pick()
-	
-func print_current_pahse():
-	match current_phase:
-		Phase.IDLE:
-			$Label.text = "Idle"
-		Phase.ROUND:
-			$Label.text = "Round"
-		Phase.END:
-			$Label.text = "End"
-			
-func print_cards_on_table():
-	var cards_string = ""
-	for card in table.cards_on_table:
-		cards_string += str(Deck.value_of(card)) + " "
-	$Label.text = cards_string
-
-func _on_timer_timeout() -> void:
-	# print_current_pahse()
-	print_cards_on_table()
