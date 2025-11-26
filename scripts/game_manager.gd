@@ -14,10 +14,9 @@ var current_player_index: int = 0
 var current_game_turn = 0
 
 var deck := Deck.new()
-var table := Table.new()
 
 @export var players_path: NodePath
-@export var card_manager: CardManager
+@export var table_manager: TableManager
 
 func setup_childs():
 	if players_path != NodePath():
@@ -40,13 +39,14 @@ func start_game():
 	shuffle.emit(current_player_index)
 
 func _ready():
-	table.setup_rules(true)
+	table_manager.setup_rules(true)
 	deck.build()
 	setup_childs()
 	start_game()
 	
 func next_player_pick():
 	current_player_index = (current_player_index + 1) % 4
+	await table_manager.update_turn_indicator(current_player_index)
 	current_game_turn += 1
 	pick.emit(current_player_index)
 
@@ -56,18 +56,17 @@ func next_turn():
 		# let next player pick
 		next_player_pick()
 	else:
-		table.complete_last_turn()
+		table_manager.complete_last_turn()
 		print('game end')
 
 func _on_player_picked(card: int):
 	# manage turn
-	var preferences: Array = table.preferences(card)
+	var preferences: Array = table_manager.preferences(card)
 	if preferences.size() <= 1:
 		var default_preference: Array = []
 		if preferences.size() > 0:
 			default_preference = preferences[0]
-		await card_manager.play_card(current_player_index, card)
-		table.play_card(current_player_index, card, default_preference)
+		await table_manager.play_card(current_player_index, card, default_preference)
 		next_turn()
 	else:
 		# needs to select a preference
@@ -75,8 +74,7 @@ func _on_player_picked(card: int):
 		
 func _on_player_preference(card: int, preference: Array):
 	print("player has picked a preference")
-	await card_manager.play_card(current_player_index, card)
-	table.play_card(current_player_index, card, preference)
+	await table_manager.play_card(current_player_index, card, preference)
 	next_turn()
 	
 func _on_player_shuffled():
@@ -95,7 +93,7 @@ func _on_player_splitted(index: int):
 		# print("Player ", i, players[player_index].cards)
 	
 	# give the cards animation
-	await card_manager.give_cards(players[0].cards)
+	await table_manager.give_cards_to_players(players[0].cards)
 	
 	# let the 1st player pick
 	next_player_pick()

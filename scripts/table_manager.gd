@@ -1,5 +1,5 @@
 extends Node
-class_name Table
+class_name TableManager
 
 # keep track of the picked cards by each team
 var picked_cards_team_a: Array[int] = []
@@ -7,7 +7,9 @@ var picked_cards_team_b: Array[int] = []
 # keep track of cards on table
 var cards_on_table: Array[int] = []
 # keep track of the last team that took a card
-var last_took_team_a: bool = false
+var last_took_player: int = 0
+
+@export var card_manager: CardManager
 
 var compositions_hash = [
 	[], # 1
@@ -70,17 +72,21 @@ func preferences(card: int):
 	return result
 
 func add_cards_to_team(player_index: int, cards: Array):
+	# play animation
+	await card_manager.collect_cards(player_index, cards)
+	
+	last_took_player = player_index
 	if player_index % 2 == 0:
 		picked_cards_team_a.append_array(cards)
-		last_took_team_a = true
 	else:
 		picked_cards_team_b.append_array(cards)
-		last_took_team_a = false
 
 func complete_last_turn():
+	#play animation
+	await card_manager.collect_cards(last_took_player, cards_on_table)
 	# last team that took gets all the cards on table
 	if !cards_on_table.is_empty():
-		if last_took_team_a:
+		if last_took_player % 2 == 0:
 			picked_cards_team_a.append_array(cards_on_table)
 		else:
 			picked_cards_team_b.append_array(cards_on_table)
@@ -101,19 +107,28 @@ func values_to_table_cards(card_values: Array):
 		result.append_array(cards_on_table.filter(func(number): return Deck.value_of(number) == card_value))
 	return result
 
+func give_cards_to_players(main_player_cards: Array):
+	await card_manager.give_cards(main_player_cards)
+
+func update_turn_indicator(player_index: int):
+	await card_manager.update_turn_indicator(player_index)
+
 func play_card(player_index: int, card: int, preference: Array = []):
+	# play animation
+	await card_manager.play_card(player_index, card)
+
 	var card_value = Deck.value_of(card)
 	# check if aces takes all
 	if aces_takes_all and card_value == 1:
 		var picked_cards = cards_on_table.duplicate()
 		picked_cards.append(card)
-		add_cards_to_team(player_index, picked_cards)
+		await add_cards_to_team(player_index, picked_cards)
 		cards_on_table.clear()
 	else:
 		for table_card in cards_on_table:
 			# check for same card
 			if Deck.value_of(table_card) == card_value:
-				add_cards_to_team(player_index, [table_card, card])
+				await add_cards_to_team(player_index, [table_card, card])
 				cards_on_table.erase(table_card)
 				return
 			# check for default card combination
@@ -122,7 +137,7 @@ func play_card(player_index: int, card: int, preference: Array = []):
 				for taken_card_value in taken_cards_values:
 					cards_on_table.erase(taken_card_value)
 				taken_cards_values.append(card)
-				add_cards_to_team(player_index, taken_cards_values)
+				await add_cards_to_team(player_index, taken_cards_values)
 				return
 		
 		cards_on_table.append(card)

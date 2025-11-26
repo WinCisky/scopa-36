@@ -1,124 +1,139 @@
-[gd_scene load_steps=6 format=3 uid="uid://dqfa3oa0fhncm"]
+[gd_scene load_steps=9 format=3 uid="uid://dqfa3oa0fhncm"]
 
 [ext_resource type="Script" uid="uid://de7tksd8x4e1x" path="res://scripts/main.gd" id="1_eoomw"]
 [ext_resource type="Script" uid="uid://cp46qknt3plrv" path="res://scripts/game_manager.gd" id="1_k0nlb"]
 [ext_resource type="PackedScene" uid="uid://07ywl1mc68o0" path="res://scenes/player.tscn" id="3_eoomw"]
 [ext_resource type="PackedScene" uid="uid://cqoj1fqja7jcy" path="res://scenes/card.tscn" id="4_ckn2j"]
 [ext_resource type="Script" uid="uid://cjyskuul7yqwn" path="res://scripts/card_manager.gd" id="5_dra8c"]
+[ext_resource type="Script" uid="uid://btw6efqpp0m71" path="res://scripts/fps.gd" id="6_5ajt7"]
+[ext_resource type="Script" uid="uid://bgrnxeo4gty36" path="res://scripts/table_manager.gd" id="6_lxbus"]
+[ext_resource type="Texture2D" uid="uid://db8vvrcvuhbo0" path="res://assets/cardsSmall_tilemap.png" id="7_3dhb1"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_eoomw")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("card_manager")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("table_manager")]
 script = ExtResource("1_k0nlb")
 players_path = NodePath("../Players")
-card_manager = NodePath("../CardsManager")
+table_manager = NodePath("../TableManager")
 
 [node name="Players" type="Node" parent="."]
 
 [node name="Player" parent="Players" instance=ExtResource("3_eoomw")]
-position = Vector2(505, 483)
 
 [node name="Player2" parent="Players" instance=ExtResource("3_eoomw")]
-position = Vector2(686, 239)
 player_id = 1
 display_name = "Player1"
 
 [node name="Player3" parent="Players" instance=ExtResource("3_eoomw")]
-position = Vector2(491, 118)
 player_id = 2
 display_name = "Player2"
 
 [node name="Player4" parent="Players" instance=ExtResource("3_eoomw")]
-position = Vector2(287, 236)
 player_id = 3
 display_name = "Player3"
 
-[node name="Cards" type="Node" parent="."]
-
-[node name="Card" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card2" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card3" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card4" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card5" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card6" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card7" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card8" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card9" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card10" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card11" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card12" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card13" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card14" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card15" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card16" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card17" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card18" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card19" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card20" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card21" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card22" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card23" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card24" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card25" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card26" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card27" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card28" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card29" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card30" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card31" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card32" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card33" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card34" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card35" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card36" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card37" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card38" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card39" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="Card40" parent="Cards" instance=ExtResource("4_ckn2j")]
-
-[node name="CardsManager" type="Node" parent="." node_paths=PackedStringArray("camera", "cards")]
+[node name="CardsManager" type="Node" parent="." node_paths=PackedStringArray("camera", "cards", "turn_indicator")]
 script = ExtResource("5_dra8c")
 camera = NodePath("../Camera2D")
-cards = [NodePath("../Cards/Card"), NodePath("../Cards/Card2"), NodePath("../Cards/Card3"), NodePath("../Cards/Card4"), NodePath("../Cards/Card5"), NodePath("../Cards/Card6"), NodePath("../Cards/Card7"), NodePath("../Cards/Card8"), NodePath("../Cards/Card9"), NodePath("../Cards/Card10"), NodePath("../Cards/Card11"), NodePath("../Cards/Card12"), NodePath("../Cards/Card13"), NodePath("../Cards/Card14"), NodePath("../Cards/Card15"), NodePath("../Cards/Card16"), NodePath("../Cards/Card17"), NodePath("../Cards/Card18"), NodePath("../Cards/Card19"), NodePath("../Cards/Card20"), NodePath("../Cards/Card21"), NodePath("../Cards/Card22"), NodePath("../Cards/Card23"), NodePath("../Cards/Card24"), NodePath("../Cards/Card25"), NodePath("../Cards/Card26"), NodePath("../Cards/Card27"), NodePath("../Cards/Card28"), NodePath("../Cards/Card29"), NodePath("../Cards/Card30"), NodePath("../Cards/Card31"), NodePath("../Cards/Card32"), NodePath("../Cards/Card33"), NodePath("../Cards/Card34"), NodePath("../Cards/Card35"), NodePath("../Cards/Card36"), NodePath("../Cards/Card37"), NodePath("../Cards/Card38"), NodePath("../Cards/Card39"), NodePath("../Cards/Card40")]
+cards = [NodePath("Card"), NodePath("Card2"), NodePath("Card3"), NodePath("Card4"), NodePath("Card5"), NodePath("Card6"), NodePath("Card7"), NodePath("Card8"), NodePath("Card9"), NodePath("Card10"), NodePath("Card11"), NodePath("Card12"), NodePath("Card13"), NodePath("Card14"), NodePath("Card15"), NodePath("Card16"), NodePath("Card17"), NodePath("Card18"), NodePath("Card19"), NodePath("Card20"), NodePath("Card21"), NodePath("Card22"), NodePath("Card23"), NodePath("Card24"), NodePath("Card25"), NodePath("Card26"), NodePath("Card27"), NodePath("Card28"), NodePath("Card29"), NodePath("Card30"), NodePath("Card31"), NodePath("Card32"), NodePath("Card33"), NodePath("Card34"), NodePath("Card35"), NodePath("Card36"), NodePath("Card37"), NodePath("Card38"), NodePath("Card39"), NodePath("Card40")]
+turn_indicator = NodePath("../TableManager/TurnIndicator")
+
+[node name="Card" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card2" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card3" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card4" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card5" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card6" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card7" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card8" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card9" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card10" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card11" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card12" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card13" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card14" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card15" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card16" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card17" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card18" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card19" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card20" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card21" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card22" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card23" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card24" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card25" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card26" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card27" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card28" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card29" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card30" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card31" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card32" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card33" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card34" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card35" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card36" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card37" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card38" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card39" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="Card40" parent="CardsManager" instance=ExtResource("4_ckn2j")]
+
+[node name="TableManager" type="Node" parent="." node_paths=PackedStringArray("card_manager")]
+script = ExtResource("6_lxbus")
+card_manager = NodePath("../CardsManager")
+
+[node name="TurnIndicator" type="Sprite2D" parent="TableManager"]
+texture_filter = 1
+texture = ExtResource("7_3dhb1")
+region_enabled = true
+region_rect = Rect2(221, 85, 16, 16)
+
+[node name="Label" type="Label" parent="." node_paths=PackedStringArray("camera")]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "hello"
+script = ExtResource("6_5ajt7")
+camera = NodePath("../Camera2D")
