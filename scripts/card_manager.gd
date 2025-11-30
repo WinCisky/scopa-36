@@ -61,25 +61,31 @@ func _ready() -> void:
 func reposition_player_cards(player_index: int, cards: Array):
 	var distance_to_next  = viewport_rect.size.x * 0.4 / 10
 	if player_index == 0:
-		distance_to_next  = viewport_rect.size.x * 0.6 / 10
+		distance_to_next  = viewport_rect.size.x * 0.8 / 10
 	var cards_number = cards.size()
 	var initial_positition = (cards_number - 1) * -0.5 * distance_to_next
+	var initial_rotation_top_bottom = -10 * (cards_number -1) /2
+	var initial_rotation_left_right = 10 * (cards_number -1) /2
 	
 	var i = 0
 	for card in cards:
+		var arch_offset = 4 * (i - (cards_number -1) /2) * (i - (cards_number -1) /2)
 		match player_index:
 			0:
-				card.target_position = players_position[2] + Vector2(initial_positition + (distance_to_next * i), 0)
-				card.target_rotation = 0
+				# y offset is based on the index, similar to an arc
+				# need a function where 0 is -arch_height / 2, middle is +arch_height / 2, end is -arch_height / 2
+				#var arch_offset = 4 * (i - (cards_number -1) /2) * (i - (cards_number -1) /2)
+				card.target_position = players_position[2] + Vector2(initial_positition + (distance_to_next * i), arch_offset)
+				card.target_rotation = initial_rotation_top_bottom + 10 * i
 			1:
-				card.target_position = players_position[1] + Vector2(0, initial_positition + (distance_to_next * i))
-				card.target_rotation = -90
+				card.target_position = players_position[1] + Vector2(arch_offset, initial_positition + (distance_to_next * i))
+				card.target_rotation = -90 + initial_rotation_left_right - 10 * i 
 			2:
-				card.target_position = players_position[0] + Vector2(- initial_positition - (distance_to_next * i), 0)
-				card.target_rotation = 180
+				card.target_position = players_position[0] + Vector2(- initial_positition - (distance_to_next * i), - arch_offset)
+				card.target_rotation = 180 + initial_rotation_top_bottom + 10 * i
 			3:
-				card.target_position = players_position[3] + Vector2(0, - initial_positition - (distance_to_next * i))
-				card.target_rotation = 90
+				card.target_position = players_position[3] + Vector2(- arch_offset, - initial_positition - (distance_to_next * i))
+				card.target_rotation = 90 + initial_rotation_left_right - 10 * i
 		card.has_reached_position = false
 		card.has_reached_rotation = false
 		i += 1

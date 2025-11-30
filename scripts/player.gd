@@ -9,18 +9,29 @@ signal preference(card: int, preference: Array)
 enum PlayerState { WAIT, SHUFFLE, SPLIT, PICK }
 var current_state: PlayerState = PlayerState.WAIT
 var cards: Array[int] = []
+var is_picking: bool = false
 
 @export var player_id: int = 0
 @export var display_name: String = "Player"
-#@export var is_human: bool = false
+@export var is_human: bool = false
 
 func _ready():
 	pass
+
+func picked_card(card: int) -> void:
+	# remove card from available cards
+	cards.erase(card)
+	is_picking = false
+	picked.emit(card)
 
 func _on_pick(player_index: int):
 	if (player_index != player_id):
 		return
 	current_state = PlayerState.PICK
+
+	if is_human:
+		is_picking = true
+		return  # wait for user input
 	# TODO: pick a card!
 	var random_card = randi() % cards.size()
 	await get_tree().create_timer(0.1).timeout

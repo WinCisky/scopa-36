@@ -22,6 +22,7 @@ table_manager = NodePath("../TableManager")
 [node name="Players" type="Node" parent="."]
 
 [node name="Player" parent="Players" instance=ExtResource("3_eoomw")]
+is_human = true
 
 [node name="Player2" parent="Players" instance=ExtResource("3_eoomw")]
 player_id = 1
@@ -126,7 +127,6 @@ script = ExtResource("6_lxbus")
 card_manager = NodePath("../CardsManager")
 
 [node name="TurnIndicator" type="Sprite2D" parent="TableManager"]
-texture_filter = 1
 texture = ExtResource("7_3dhb1")
 region_enabled = true
 region_rect = Rect2(221, 85, 16, 16)
