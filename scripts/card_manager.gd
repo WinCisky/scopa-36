@@ -204,3 +204,15 @@ func collect_cards(player_index, cards: Array):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+
+func simple_aabb_collision(point: Vector2, rect_position: Vector2, rect_size: Vector2) -> bool:
+	return point.x >= rect_position.x - rect_size.x / 2 and point.x <= rect_position.x + rect_size.x / 2 and \
+		point.y >= rect_position.y - rect_size.y / 2 and point.y <= rect_position.y + rect_size.y / 2
+
+func get_player_cards_at_position(position: Vector2) -> Array[Node2D]:
+	var result: Array[Node2D] = []
+	for player_card in players_cards[0]:
+		var card_rect_position = player_card.position
+		if simple_aabb_collision(position, card_rect_position, card_size):
+			result.append(player_card)
+	return result
