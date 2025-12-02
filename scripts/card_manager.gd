@@ -4,6 +4,7 @@ class_name CardManager
 @export var camera: Camera2D
 @export var cards: Array[Node2D]
 @export var turn_indicator: Node2D
+@export var discard_indicator: Node2D
 
 var table_cards: Array
 
@@ -18,6 +19,11 @@ var total_players := 4
 var total_cards := 40
 # actual size of the card
 var card_size := Vector2(16, 16)
+# grabbed card
+var grabbed_card: Node2D = null
+# play card treshold
+var play_card_treshold := 0.3 # 30% of the screen height
+var play_card_y_position := 0.0
 
 func get_scale_value(width):
 	return width / 100
@@ -43,7 +49,16 @@ func _ready() -> void:
 	set_indicator_scale(viewport_rect.size.x)
 	# hide turn indicator
 	turn_indicator.visible = false
-	
+	discard_indicator.visible = true
+
+	# var world_position = camera.get_canvas_transform().affine_inverse() * event.position
+	play_card_y_position = viewport_rect.size.y * (0.5 - play_card_treshold / 2)
+	discard_indicator.position = Vector2(0, play_card_y_position) 
+	# assume size is 16x16 need to fill all the screen width and h * play_card_treshold
+	var discard_height = viewport_rect.size.y * play_card_treshold
+	var discard_width = viewport_rect.size.x
+	discard_indicator.scale = Vector2(discard_width / 16, discard_height / 16)
+
 	#print(viewport_rect.size.x)
 	var half_w = viewport_rect.size.x / 2
 	var half_h = viewport_rect.size.y / 2
@@ -216,3 +231,27 @@ func get_player_cards_at_position(position: Vector2) -> Array[Node2D]:
 		if simple_aabb_collision(position, card_rect_position, card_size):
 			result.append(player_card)
 	return result
+
+func card_grabbed(card: Node2D) -> void:
+	if card == null:
+		return
+	# called when a card is grabbed by the input manager
+	# remove the card from the player's hand
+	for i in range(players_cards[0].size()):
+		if players_cards[0][i].card == card.card:
+			players_cards[0].remove_at(i)
+			break
+	reposition_player_cards(0, players_cards[0])
+	card.has_reached_position = true
+	card.target_rotation = 0
+	card.has_reached_rotation = false
+	grabbed_card = card
+
+func card_released(card: Node2D) -> void:
+	if card == null:
+		return
+	# called when a card is released by the input manager
+	# place the card back to the player's hand
+	players_cards[0].append(card)
+	reposition_player_cards(0, players_cards[0])
+	grabbed_card = null
