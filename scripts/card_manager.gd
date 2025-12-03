@@ -5,6 +5,7 @@ class_name CardManager
 @export var cards: Array[Node2D]
 @export var turn_indicator: Node2D
 @export var discard_indicator: Node2D
+@export var player: Player
 
 var table_cards: Array
 
@@ -49,11 +50,11 @@ func _ready() -> void:
 	set_indicator_scale(viewport_rect.size.x)
 	# hide turn indicator
 	turn_indicator.visible = false
-	discard_indicator.visible = true
+	discard_indicator.visible = false
 
 	# var world_position = camera.get_canvas_transform().affine_inverse() * event.position
-	play_card_y_position = viewport_rect.size.y * (0.5 - play_card_treshold / 2)
-	discard_indicator.position = Vector2(0, play_card_y_position) 
+	play_card_y_position = viewport_rect.size.y * (1 - play_card_treshold)
+	discard_indicator.position = Vector2(0, viewport_rect.size.y * (0.5 - play_card_treshold / 2)) 
 	# assume size is 16x16 need to fill all the screen width and h * play_card_treshold
 	var discard_height = viewport_rect.size.y * play_card_treshold
 	var discard_width = viewport_rect.size.x
@@ -235,7 +236,7 @@ func get_player_cards_at_position(position: Vector2) -> Array[Node2D]:
 func card_grabbed(card: Node2D) -> void:
 	if card == null:
 		return
-	# called when a card is grabbed by the input manager
+	discard_indicator.visible = true
 	# remove the card from the player's hand
 	for i in range(players_cards[0].size()):
 		if players_cards[0][i].card == card.card:
@@ -247,11 +248,18 @@ func card_grabbed(card: Node2D) -> void:
 	card.has_reached_rotation = false
 	grabbed_card = card
 
-func card_released(card: Node2D) -> void:
+func card_released(card: Node2D, position: Vector2) -> void:
+	discard_indicator.visible = false
+	grabbed_card = null
 	if card == null:
 		return
-	# called when a card is released by the input manager
-	# place the card back to the player's hand
 	players_cards[0].append(card)
+
+	if position.y <= play_card_y_position:
+		# play the card
+		var success = player.picked_card(card.card)
+		if success:
+			return
+
+	# place the card back to the player's hand
 	reposition_player_cards(0, players_cards[0])
-	grabbed_card = null

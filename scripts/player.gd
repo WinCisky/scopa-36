@@ -18,11 +18,14 @@ var is_picking: bool = false
 func _ready():
 	pass
 
-func picked_card(card: int) -> void:
+func picked_card(card: int) -> bool:
+	if not is_picking:
+		return false
 	# remove card from available cards
 	cards.erase(card)
 	is_picking = false
 	picked.emit(card)
+	return true
 
 func _on_pick(player_index: int):
 	if (player_index != player_id):

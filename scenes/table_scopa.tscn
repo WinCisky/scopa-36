@@ -37,12 +37,13 @@ display_name = "Player2"
 player_id = 3
 display_name = "Player3"
 
-[node name="CardsManager" type="Node" parent="." node_paths=PackedStringArray("camera", "cards", "turn_indicator", "discard_indicator")]
+[node name="CardsManager" type="Node" parent="." node_paths=PackedStringArray("camera", "cards", "turn_indicator", "discard_indicator", "player")]
 script = ExtResource("5_dra8c")
 camera = NodePath("../Camera2D")
 cards = [NodePath("Card"), NodePath("Card2"), NodePath("Card3"), NodePath("Card4"), NodePath("Card5"), NodePath("Card6"), NodePath("Card7"), NodePath("Card8"), NodePath("Card9"), NodePath("Card10"), NodePath("Card11"), NodePath("Card12"), NodePath("Card13"), NodePath("Card14"), NodePath("Card15"), NodePath("Card16"), NodePath("Card17"), NodePath("Card18"), NodePath("Card19"), NodePath("Card20"), NodePath("Card21"), NodePath("Card22"), NodePath("Card23"), NodePath("Card24"), NodePath("Card25"), NodePath("Card26"), NodePath("Card27"), NodePath("Card28"), NodePath("Card29"), NodePath("Card30"), NodePath("Card31"), NodePath("Card32"), NodePath("Card33"), NodePath("Card34"), NodePath("Card35"), NodePath("Card36"), NodePath("Card37"), NodePath("Card38"), NodePath("Card39"), NodePath("Card40")]
 turn_indicator = NodePath("../TableManager/TurnIndicator")
 discard_indicator = NodePath("../TableManager/DiscardIndicator")
+player = NodePath("../Players/Player")
 
 [node name="Card" parent="CardsManager" instance=ExtResource("4_ckn2j")]
 z_index = 1
